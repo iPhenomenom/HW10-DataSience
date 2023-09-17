@@ -22,7 +22,7 @@ model.compile(optimizer='adam',
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
 
-history = model.fit(train_images, train_labels, epochs=10,
+history = model.fit(train_images, train_labels, epochs=30,
                     validation_data=(test_images, test_labels))
 
 test_loss, test_acc = model.evaluate(test_images, test_labels, verbose=2)
@@ -36,6 +36,8 @@ plt.ylabel('Accuracy')
 plt.ylim([0, 1])
 plt.legend(loc='lower right')
 plt.show()
+
+
 
 # Завантаження та підготовка даних
 (train_images, train_labels), (test_images, test_labels) = datasets.fashion_mnist.load_data()
@@ -58,6 +60,8 @@ vgg_base = VGG16(weights='imagenet',
 model = models.Sequential()
 model.add(vgg_base)  # Додавання VGG16 як згорткової основи
 model.add(layers.Flatten())
+model.add(layers.Dense(512, activation='relu'))
+model.add(layers.Dropout(0.5))
 model.add(layers.Dense(256, activation='relu'))
 model.add(layers.Dropout(0.5))
 model.add(layers.Dense(10, activation='softmax'))
@@ -70,8 +74,8 @@ model.compile(optimizer='adam',
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
 
-# Навчання моделі
-history = model.fit(train_images, train_labels, epochs=10,
+# Навчання моделі з більшою кількістю епох
+history = model.fit(train_images, train_labels, epochs=30,
                     validation_data=(test_images, test_labels))
 
 # Оцінка та візуалізація результатів
@@ -87,3 +91,4 @@ plt.ylabel('Accuracy')
 plt.ylim([0, 1])
 plt.legend(loc='lower right')
 plt.show()
+
